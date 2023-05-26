@@ -1,8 +1,14 @@
-import { LoginForm } from "@/components/Auth/LoginForm";
 import Image from "next/image";
+import { LoginForm } from "@/components/auth/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
+import { options } from "@/lib/auth";
 
-export default function Home() {
+async function Home() {
+    const session = await getServerSession(options);
+    if (session) redirect("/dashboard");
+
     return (
         <main className="mx-auto max-w-[550px] md:mt-24 mt-14 p-8 h-full">
             <Card className="w-full p-6">
@@ -18,3 +24,5 @@ export default function Home() {
         </main>
     );
 }
+
+export default Home;

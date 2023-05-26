@@ -6,9 +6,8 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -60,9 +59,14 @@ export function LoginForm() {
                         Sign In
                     </Button>
                     <p>-OR-</p>
-                    <Button onClick={() => signIn("google")} type="button" variant={"outline"} className="w-full ">
+                    <Button
+                        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                        type="button"
+                        variant={"outline"}
+                        className="w-full "
+                    >
                         <Image src="/img/google-icon.png" alt="google_logo" width={20} height={20} className="mr-3" />{" "}
-                        Login with Google
+                        Sign In with Google
                     </Button>
                 </div>
             </form>
