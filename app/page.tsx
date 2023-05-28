@@ -7,7 +7,7 @@ import { options } from "@/lib/auth";
 
 async function Home() {
     const session = await getServerSession(options);
-    if (session) redirect("/dashboard");
+    if (session) redirect("/dashboard/overview");
 
     return (
         <main className="mx-auto max-w-[550px] md:mt-24 mt-14 p-8 h-full">

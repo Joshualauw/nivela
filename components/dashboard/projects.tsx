@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, Settings } from "lucide-react";
+import { Check, ChevronsUpDown, PlusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
@@ -39,7 +39,7 @@ export function ProjectCombobox() {
                     {value ? frameworks.find((framework) => framework.value === value)?.label : "Select Project"}
                     <div className="flex items-center ml-2">
                         <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-                        <Settings
+                        <PlusIcon
                             onClick={(e) => e.stopPropagation()}
                             className="ml-4 hover:opacity-100 h-4 w-4 shrink-0 opacity-50"
                         />
@@ -49,7 +49,7 @@ export function ProjectCombobox() {
             <PopoverContent className="w-full p-0">
                 <Command>
                     <CommandInput placeholder="Search projects..." />
-                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandEmpty>No project found.</CommandEmpty>
                     <CommandGroup>
                         {frameworks.map((framework) => (
                             <CommandItem

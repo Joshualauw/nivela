@@ -60,12 +60,12 @@ export function LoginForm() {
                     </Button>
                     <p>-OR-</p>
                     <Button
-                        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+                        onClick={() => signIn("google", { callbackUrl: "/dashboard/overview" })}
                         type="button"
                         variant={"outline"}
                         className="w-full "
                     >
-                        <Image src="/img/google-icon.png" alt="google_logo" width={20} height={20} className="mr-3" />{" "}
+                        <Image src="/img/google-icon.png" alt="google_logo" width={20} height={20} className="mr-3" />
                         Sign In with Google
                     </Button>
                 </div>

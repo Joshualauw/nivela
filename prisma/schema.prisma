@@ -79,9 +79,21 @@ model Item {
 }
 
 type Field {
-    title  String
-    unit   String?
-    single Boolean @default(true)
-    source Boolean @default(false)
-    value  Json?
+    title String
+    type  FieldType
+    value FieldValue?
+}
+
+enum FieldType {
+    text
+    textarea
+    date
+    number
+    source
+}
+
+type FieldValue {
+    content  String?
+    linkname String?
+    url      String?
 }
