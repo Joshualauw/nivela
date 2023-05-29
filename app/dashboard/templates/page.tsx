@@ -5,7 +5,7 @@ import TemplateCard from "@/components/dashboard/templates/template-card";
 
 function Templates() {
     return (
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <TemplateCard />
             <EditTemplate context="create">
                 <Card className="hover:scale-[0.98] bg-gray-100 flex justify-center items-center">

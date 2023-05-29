@@ -60,7 +60,7 @@ export function LoginForm() {
                     </Button>
                     <p>-OR-</p>
                     <Button
-                        onClick={() => signIn("google", { callbackUrl: "/dashboard/overview" })}
+                        onClick={() => signIn("google", { callbackUrl: "/projects" })}
                         type="button"
                         variant={"outline"}
                         className="w-full "

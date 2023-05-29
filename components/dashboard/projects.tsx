@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, PlusIcon } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
@@ -37,13 +37,7 @@ export function ProjectCombobox() {
                     className="flex justify-between w-[calc(100%-56px)] bottom-12 items-center absolute space-x-2 rounded-full "
                 >
                     {value ? frameworks.find((framework) => framework.value === value)?.label : "Select Project"}
-                    <div className="flex items-center ml-2">
-                        <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-                        <PlusIcon
-                            onClick={(e) => e.stopPropagation()}
-                            className="ml-4 hover:opacity-100 h-4 w-4 shrink-0 opacity-50"
-                        />
-                    </div>
+                    <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">

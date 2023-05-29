@@ -19,7 +19,7 @@ function TemplateCard() {
                         <Edit className="mr-2 w-4 h-4" /> Edit
                     </Button>
                 </EditTemplate>
-                <DeleteModal callback={() => {}}>
+                <DeleteModal callback={() => {}} itemName="template">
                     <Button variant="destructive" size="sm" className="w-full">
                         <Trash className="mr-2 w-4 h-4" /> Delete
                     </Button>

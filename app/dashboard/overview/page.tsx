@@ -1,5 +1,5 @@
 function Overview() {
-    return <div>Coming soon...</div>;
+    return <div className="text-center">Coming soon...</div>;
 }
 
 export default Overview;

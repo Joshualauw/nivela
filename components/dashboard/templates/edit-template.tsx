@@ -24,7 +24,7 @@ interface EditTemplateProps {
 }
 
 export function EditTemplate({ context, children }: EditTemplateProps) {
-    const [fields, setFields] = useState([{ title: "Template 1", single: false, source: false, unit: "" }]);
+    const [fields, setFields] = useState([{ title: "Age", type: "text" }]);
 
     return (
         <Dialog>
@@ -76,9 +76,7 @@ export function EditTemplate({ context, children }: EditTemplateProps) {
                                     </div>
                                     <div className="text-gray-600 text-sm">
                                         <p>Title: {f.title}</p>
-                                        <p>Type: {f.single ? "Single" : "Multiple"}</p>
-                                        <p>Source: {f.source ? "Datasource" : "None"}</p>
-                                        <p>Unit: {f.unit}</p>
+                                        <p>Type: {f.type}</p>
                                     </div>
                                 </CardHeader>
                             </Card>

@@ -1,13 +1,12 @@
 "use client";
 
-import { User, Mountain, Settings, LayoutDashboard, BookTemplate, Pencil, Box } from "lucide-react";
+import { User, Mountain, Settings, LayoutDashboard, BookTemplate, Pencil, Boxes } from "lucide-react";
 import { cloneElement } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 import { ProjectCombobox } from "./projects";
 import { useTitleStore } from "@/store/useTitleStore";
-import { EditCategory } from "./category/edit-category";
 import Image from "next/image";
 import { FaQuestion } from "react-icons/fa";
 
@@ -37,7 +36,7 @@ const settings = [
     },
     {
         name: "Categories",
-        icon: <Box />,
+        icon: <Boxes />,
     },
     {
         name: "Settings",
@@ -45,12 +44,16 @@ const settings = [
     },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+    className?: string;
+}
+
+export default function Sidebar({ className }: SidebarProps) {
     const router = useRouter();
     const { title, setTitle } = useTitleStore();
 
     return (
-        <div className="w-[300px] h-screen hidden lg:block bg-gray-900 text-gray-100">
+        <div className={className + " bg-gray-900 text-gray-100"}>
             <div className="space-y-4 px-5 py-2 mt-6 h-full relative">
                 <div className="px-2 py-1">
                     <h2 className="px-2 text-xl font-bold items-center tracking-wide flex">
@@ -94,9 +97,6 @@ export default function Sidebar() {
                     <ProjectCombobox />
                 </div>
             </div>
-            <Button className="rounded-full bg-gray-900 fixed bottom-4 right-4 p-2 w-10 h-10 flex justify-center items-center">
-                <FaQuestion />
-            </Button>
         </div>
     );
 }

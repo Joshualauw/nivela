@@ -3,10 +3,10 @@ import { LoginForm } from "@/components/auth/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { options } from "@/lib/auth";
+import { authOptions } from "@/lib/auth";
 
 async function Home() {
-    const session = await getServerSession(options);
+    const session = await getServerSession(authOptions);
     if (session) redirect("/dashboard/overview");
 
     return (

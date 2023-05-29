@@ -1,8 +1,8 @@
 "use client";
 
-import { CreditCard, LogOut, Settings, User } from "lucide-react";
+import { CreditCard, LogOut, Menu, Settings, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,8 +14,12 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useTitleStore } from "@/store/useTitleStore";
+import { FaDashcube } from "react-icons/fa";
+import Link from "next/link";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Sidebar from "./sidebar";
 
-function Header() {
+function Navbar() {
     const { title } = useTitleStore();
     const { data: session } = useSession({
         required: true,
@@ -25,12 +29,24 @@ function Header() {
     });
 
     return session && session.user ? (
-        <div className="flex justify-between items-center w-full h-16 border-b px-8">
-            <h3 className="font-semibold">{title}</h3>
+        <div className="flex justify-between items-center w-full h-16 border-b px-3 md:px-8">
+            <div className="flex items-center">
+                <Sheet>
+                    <SheetTrigger>
+                        <div className={"block lg:hidden " + buttonVariants({ variant: "ghost" })}>
+                            <Menu className="w-6 h-6" />
+                        </div>
+                    </SheetTrigger>
+                    <SheetContent position="left">
+                        <Sidebar className="absolute top-0 left-0 min-h-screen w-[250px]" />
+                    </SheetContent>
+                </Sheet>
+                <h3 className="font-semibold">{title}</h3>
+            </div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative flex">
-                        <Avatar className="w-8 h-8">
+                        <Avatar className="w-6 h-6 md:w-8 md:h-8">
                             <AvatarImage src={session.user?.image ?? ""} alt="user_avatar" />
                             <AvatarFallback>ME</AvatarFallback>
                         </Avatar>
@@ -56,6 +72,10 @@ function Header() {
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                        <FaDashcube className="mr-2 h-4 w-4" />
+                        <Link href="/projects">My Projects</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
@@ -68,4 +88,4 @@ function Header() {
     );
 }
 
-export default Header;
+export default Navbar;

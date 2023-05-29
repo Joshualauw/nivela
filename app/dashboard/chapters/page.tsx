@@ -1,7 +1,7 @@
 import React from "react";
 
 function Chapter() {
-    return <div>Coming soon...</div>;
+    return <div className="text-center">Coming soon...</div>;
 }
 
 export default Chapter;

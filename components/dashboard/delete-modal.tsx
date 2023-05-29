@@ -16,10 +16,11 @@ import { buttonVariants } from "../ui/button";
 
 interface DeleteModalProps {
     children: ReactNode;
+    itemName?: string;
     callback: (accept: boolean) => void;
 }
 
-export function DeleteModal({ children, callback }: DeleteModalProps) {
+export function DeleteModal({ children, callback, itemName }: DeleteModalProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -27,8 +28,8 @@ export function DeleteModal({ children, callback }: DeleteModalProps) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete this item and remove your data from
-                        our servers.
+                        This action cannot be undone. This will permanently delete {itemName ?? "item"} and remove your
+                        data from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

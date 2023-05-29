@@ -26,7 +26,7 @@ function ItemCard() {
                         <Edit className="mr-2 w-4 h-4" /> Edit
                     </Button>
                 </EditItem>
-                <DeleteModal callback={() => {}}>
+                <DeleteModal callback={() => {}} itemName="item">
                     <Button variant="destructive" size="sm" className="w-full">
                         <Trash className="mr-2 w-4 h-4" /> Delete
                     </Button>
