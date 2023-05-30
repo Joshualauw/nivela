@@ -1,4 +1,4 @@
-import axios from "axios";
+import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -18,4 +18,8 @@ export function exclude<T, Key extends keyof T>(obj: T, keys: Key[]): Omit<T, Ke
     return newObj;
 }
 
-export const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+export function axiosError(err: any) {
+    const error = err as AxiosError;
+    console.error(error);
+    return JSON.stringify({ code: error.response?.status, detail: error.response?.data });
+}

@@ -10,7 +10,7 @@ async function Home() {
     if (session) redirect("/dashboard/overview");
 
     return (
-        <main className="mx-auto max-w-[550px] md:mt-24 mt-14 p-8 h-full">
+        <main className="mx-auto max-w-[550px] md:mt-24 mt-14 p-4 md:p-8 h-full">
             <Card className="w-full p-6">
                 <CardHeader className="text-center flex justify-center items-center">
                     <Image src="/img/logo.png" alt="logo" width={50} height={50} />

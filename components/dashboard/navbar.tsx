@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { useTitleStore } from "@/store/useTitleStore";
+import { useTitleStore } from "@/hooks/store/useTitleStore";
 import { FaDashcube } from "react-icons/fa";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -29,18 +29,20 @@ function Navbar() {
     });
 
     return session && session.user ? (
-        <div className="flex justify-between items-center w-full h-16 border-b px-3 md:px-8">
+        <div className="flex justify-between items-center w-full h-16 border-b px-4 md:px-8">
             <div className="flex items-center">
-                <Sheet>
-                    <SheetTrigger>
-                        <div className={"block lg:hidden " + buttonVariants({ variant: "ghost" })}>
-                            <Menu className="w-6 h-6" />
-                        </div>
-                    </SheetTrigger>
-                    <SheetContent position="left">
-                        <Sidebar className="absolute top-0 left-0 min-h-screen w-[250px]" />
-                    </SheetContent>
-                </Sheet>
+                {title != "Projects" && (
+                    <Sheet>
+                        <SheetTrigger>
+                            <div className={"block lg:hidden " + buttonVariants({ variant: "ghost" })}>
+                                <Menu className="w-6 h-6" />
+                            </div>
+                        </SheetTrigger>
+                        <SheetContent position="left">
+                            <Sidebar className="absolute top-0 left-0 min-h-screen w-[250px]" />
+                        </SheetContent>
+                    </Sheet>
+                )}
                 <h3 className="font-semibold">{title}</h3>
             </div>
             <DropdownMenu>

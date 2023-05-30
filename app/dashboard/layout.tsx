@@ -1,5 +1,6 @@
 import Navbar from "@/components/dashboard/navbar";
 import Sidebar from "@/components/dashboard/sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -14,7 +15,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
             <Sidebar className="w-[300px] h-screen hidden lg:block" />
             <div className="w-full">
                 <Navbar />
-                <section className="p-8">{children}</section>
+                <ScrollArea className="h-screen p-8 pb-24">{children}</ScrollArea>
             </div>
         </div>
     );

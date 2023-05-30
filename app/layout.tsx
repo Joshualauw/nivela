@@ -1,6 +1,10 @@
-import Provider from "@/components/provider";
+"use client";
+
 import { ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
+import Providers from "@/components/providers";
 import "@/styles/global.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
     title: "Nivela",
@@ -11,9 +15,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     return (
         <html lang="en">
             <body>
-                <Provider>
-                    <main className="bg-slate-50 min-h-screen w-full fixed top-0 left-0">{children}</main>
-                </Provider>
+                <Providers>
+                    <div className="bg-slate-50 h-screen w-full fixed top-0 left-0">
+                        {children}
+                        <ToastContainer />
+                        <div className="mb-4"></div>
+                    </div>
+                </Providers>
             </body>
         </html>
     );

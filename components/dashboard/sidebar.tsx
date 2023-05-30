@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 import { ProjectCombobox } from "./projects";
-import { useTitleStore } from "@/store/useTitleStore";
+import { useTitleStore } from "@/hooks/store/useTitleStore";
 import Image from "next/image";
 import { FaQuestion } from "react-icons/fa";
 

@@ -5,8 +5,10 @@ import TemplateCard from "@/components/dashboard/templates/template-card";
 
 function Templates() {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <TemplateCard />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {Array.from(Array(20)).map((ar) => (
+                <TemplateCard key={ar} />
+            ))}
             <EditTemplate context="create">
                 <Card className="hover:scale-[0.98] bg-gray-100 flex justify-center items-center">
                     <CardContent className="w-full h-full flex justify-center items-center">

@@ -63,7 +63,7 @@ function EditItem({ children, context }: EditItemProps) {
                                             warning! re-applying template will replace existing fields and values!
                                         </DialogDescription>
                                     </DialogHeader>
-                                    <div className="grid grid-cols-2 mt-4">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 mt-4">
                                         <Card>
                                             <CardHeader>
                                                 <CardTitle>World Building</CardTitle>
