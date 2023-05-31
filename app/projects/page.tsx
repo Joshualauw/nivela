@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useTitleStore } from "@/hooks/store/useTitleStore";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 function Projects() {

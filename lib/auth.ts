@@ -24,7 +24,8 @@ export const authOptions: NextAuthOptions = {
 };
 
 export async function isAuthenticated(request: NextRequest) {
-    const token = request.cookies.get("next-auth.session-token");
+    const token =
+        request.cookies.get("next-auth.session-token") || request.cookies.get("__Secure-next-auth.session-token");
     //for api testing
     //const token = request.headers.get("token");
 
