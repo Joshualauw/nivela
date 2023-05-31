@@ -1,7 +1,4 @@
-"use client";
-
 import { ReactNode } from "react";
-import { ToastContainer } from "react-toastify";
 import Providers from "@/components/providers";
 import "@/styles/global.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,7 +15,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <Providers>
                     <div className="bg-slate-50 h-screen w-full fixed top-0 left-0">
                         {children}
-                        <ToastContainer />
                         <div className="mb-4"></div>
                     </div>
                 </Providers>

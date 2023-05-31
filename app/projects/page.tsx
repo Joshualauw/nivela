@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useTitleStore } from "@/hooks/store/useTitleStore";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 function Projects() {
@@ -18,13 +18,13 @@ function Projects() {
     const { data: session } = useSession();
     const { getAllProjects } = useProject();
 
-    useEffect(() => setTitle("Projects"), []);
+    useEffect(() => setTitle("projects"), []);
 
     const {
         data: projects,
         isLoading,
         error,
-    } = useQuery("getAllProjects", () => getAllProjects({ userId: session?.user.id }));
+    } = useQuery("getAllProjects", () => getAllProjects({ userId: session?.user.id }), { enabled: !!session });
     if (error) return <Error />;
 
     return (

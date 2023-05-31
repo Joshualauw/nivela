@@ -1,6 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -9,7 +10,10 @@ export function Providers({ children, session }: any) {
 
     return (
         <SessionProvider session={session}>
-            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+            <QueryClientProvider client={queryClient}>
+                {children}
+                <ToastContainer />
+            </QueryClientProvider>
         </SessionProvider>
     );
 }
