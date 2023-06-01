@@ -1,28 +1,15 @@
 "use client";
 
-import { User, Mountain, Settings, LayoutDashboard, BookTemplate, Pencil, Boxes } from "lucide-react";
+import { Settings, LayoutDashboard, BookTemplate, Pencil, Boxes, Box } from "lucide-react";
 import { cloneElement } from "react";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
 import { ProjectCombobox } from "./projects";
 import { useTitleStore } from "@/hooks/store/useTitleStore";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 
-const categories = [
-    {
-        name: "Characters",
-        icon: <User />,
-    },
-    {
-        name: "Places",
-        icon: <Mountain />,
-    },
-];
-
-const settings = [
+const navs = [
     {
         name: "Overview",
         icon: <LayoutDashboard />,
@@ -40,6 +27,10 @@ const settings = [
         icon: <Boxes />,
     },
     {
+        name: "Items",
+        icon: <Box />,
+    },
+    {
         name: "Settings",
         icon: <Settings />,
     },
@@ -55,7 +46,7 @@ export default function Sidebar({ className }: SidebarProps) {
     const { projectDetail } = useProjectStore();
 
     return (
-        <div className={className + " bg-gray-900 text-gray-100"}>
+        <div className={className + " bg-gray-900 text-gray-100 h-full"}>
             <div className="space-y-4 px-5 py-2 mt-6 h-full relative">
                 <div className="px-2 py-1">
                     <h2 className="px-2 text-xl font-bold items-center tracking-wide flex">
@@ -63,41 +54,22 @@ export default function Sidebar({ className }: SidebarProps) {
                         <span className="tracking-wider">Nivela.com</span>
                     </h2>
                     <h3 className="mb-8 px-2 text-gray-400">Unleash your creation</h3>
-                    <div className="space-y-2 mb-8">
-                        {settings.map((set) => (
+                    <div className="space-y-4">
+                        {navs.map((nav) => (
                             <Button
-                                key={set.name}
+                                key={nav.name}
                                 onClick={() => {
-                                    setTitle(set.name.toLowerCase());
-                                    router.push(`/dashboard/${set.name.toLowerCase()}?projectId=${projectDetail?.id}`);
+                                    setTitle(nav.name.toLowerCase());
+                                    router.push(`/dashboard/${nav.name.toLowerCase()}?projectId=${projectDetail?.id}`);
                                 }}
-                                variant={title === set.name.toLowerCase() ? "secondary" : "ghost"}
+                                variant={title === nav.name.toLowerCase() ? "secondary" : "ghost"}
                                 className="w-full justify-start"
                             >
-                                {cloneElement(set.icon, { className: "mr-4 h-4 w-4" })}
-                                {set.name}
+                                {cloneElement(nav.icon, { className: "mr-4 h-4 w-4" })}
+                                {nav.name}
                             </Button>
                         ))}
                     </div>
-                    <h2 className="mb-5">All Categories</h2>
-                    <ScrollArea className="mt-5 h-[225px]">
-                        {categories.map((cat) => (
-                            <Button
-                                key={cat.name}
-                                onClick={() => {
-                                    setTitle(cat.name.toLowerCase());
-                                    router.push(
-                                        `/dashboard/category/${cat.name.toLowerCase()}?projectId=${projectDetail?.id}`
-                                    );
-                                }}
-                                variant={title === cat.name.toLowerCase() ? "secondary" : "ghost"}
-                                className="w-full mb-1 justify-start"
-                            >
-                                {cloneElement(cat.icon, { className: "mr-4 h-4 w-4" })}
-                                {cat.name}
-                            </Button>
-                        ))}
-                    </ScrollArea>
                     <ProjectCombobox />
                 </div>
             </div>

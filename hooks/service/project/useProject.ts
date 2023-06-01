@@ -1,7 +1,7 @@
 import { CreateProjectDto } from "@/app/api/project/route";
 import { ApiResponse } from "@/types/index";
 import { Project } from "@prisma/client";
-import { axiosError } from "../../../lib/utils";
+import { axiosError, blobToBase64 } from "../../../lib/utils";
 import { ProjectCards, ProjectDetail } from "./types";
 import axios from "axios";
 import { UpdateProjectDto } from "@/app/api/project/[id]/route";
@@ -20,7 +20,7 @@ function useProject() {
                     name: dt.name,
                     template_count: dt._count.templates,
                     category_count: dt._count.categories,
-                    items_count: dt.categories.reduce((total, cur) => total + cur._count.items, 0),
+                    items_count: dt._count.items,
                 }));
             } catch (err: any) {
                 throw new Error(axiosError(err));
@@ -40,7 +40,10 @@ function useProject() {
             const formData = new FormData();
             formData.append("name", payload.name);
             formData.append("description", payload.description);
-            if (payload.image) formData.append("image", payload.image);
+            if (payload.image) {
+                const image = await blobToBase64(payload.image);
+                formData.append("image", image);
+            }
 
             try {
                 const res = await axios.post<ApiResponse<Project>>(BASE_API, formData, {
@@ -56,7 +59,10 @@ function useProject() {
             const formData = new FormData();
             formData.append("name", payload.name);
             formData.append("description", payload.description);
-            if (payload.image) formData.append("image", payload.image);
+            if (payload.image) {
+                const image = await blobToBase64(payload.image);
+                formData.append("image", image);
+            }
 
             try {
                 const res = await axios.put<ApiResponse<Project>>(`${BASE_API}/${payload.id}`, formData, {

@@ -23,7 +23,7 @@ function Templates() {
 
     return (
         <>
-            <div className="flex justify-between items-center w-full mb-8">
+            <div className="flex justify-between items-center w-full mb-8 mt-2">
                 <h1 className="text-xl font-bold">All Templates</h1>
                 <EditTemplate context="create">
                     <Button size="sm">

@@ -23,7 +23,7 @@ function Categories() {
 
     return (
         <>
-            <div className="flex justify-between items-center w-full mb-8">
+            <div className="flex justify-between items-center w-full mt-2 mb-8">
                 <h1 className="text-xl font-bold">All Categories</h1>
                 <EditCategory context="create">
                     <Button size="sm">

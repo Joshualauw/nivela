@@ -4,7 +4,7 @@ import { exclude } from "@/lib/utils";
 import { validator } from "@/lib/validator";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { deleteFolder, uploadFile } from "@/lib/fileUpload";
+import { deleteFile, uploadFile } from "@/lib/fileUpload";
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);
@@ -47,7 +47,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
             data: { ...exclude(body, ["image"]) },
         });
         if (body.image) {
-            const { url } = await uploadFile(body.image, "projects", project.id);
+            const { url } = await uploadFile(body.image, `projects/${project.id}`);
             await prisma.project.update({ where: { id: project.id }, data: { image: url } });
             project.image = url;
         }
@@ -63,12 +63,17 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     if (!loggedUser) return NextResponse.json({ message: "unauthenticated" }, { status: 401 });
 
     try {
-        const [, , project] = await prisma.$transaction([
+        const [, , items, , project] = await prisma.$transaction([
             prisma.category.deleteMany({ where: { projectId: params.id } }),
             prisma.template.deleteMany({ where: { projectId: params.id } }),
+            prisma.item.findMany({ where: { projectId: params.id } }),
+            prisma.item.deleteMany({ where: { projectId: params.id } }),
             prisma.project.delete({ where: { id: params.id } }),
         ]);
-        if (project.image) deleteFolder(`projects/${project.id}`);
+        if (project.image) await deleteFile(`projects/${project.id}`);
+        for (let i = 0; i < items.length; i++) {
+            await deleteFile(`items/${items[i].id}`);
+        }
 
         return NextResponse.json({ data: project, message: "project deleted successfully" });
     } catch (err: any) {

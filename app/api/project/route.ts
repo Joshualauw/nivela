@@ -20,8 +20,7 @@ export async function GET(request: NextRequest) {
         const projects = await prisma.project.findMany({
             where: query,
             include: {
-                _count: { select: { templates: true, categories: true } },
-                categories: { include: { _count: { select: { items: true } } } },
+                _count: { select: { templates: true, categories: true, items: true } },
             },
         });
 
@@ -52,7 +51,7 @@ export async function POST(request: NextRequest) {
 
         const project = await prisma.project.create({ data: { ...exclude(body, ["image"]), userId: loggedUser.id } });
         if (body.image) {
-            const { url } = await uploadFile(body.image, `projects/${project.id}`, "background");
+            const { url } = await uploadFile(body.image, `projects/${project.id}`);
             await prisma.project.update({ where: { id: project.id }, data: { image: url } });
             project.image = url;
         }

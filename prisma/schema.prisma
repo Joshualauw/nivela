@@ -54,6 +54,7 @@ model Project {
     image       String?
     categories  Category[]
     templates   Template[]
+    items       Item[]
 }
 
 model Category {
@@ -80,6 +81,8 @@ model Item {
     fields     Field[]
     category   Category? @relation(fields: [categoryId], references: [id])
     categoryId String?   @db.ObjectId
+    project    Project?  @relation(fields: [projectId], references: [id])
+    projectId  String?   @db.ObjectId
 }
 
 type Field {

@@ -34,7 +34,7 @@ export function ProjectCombobox() {
                     bounce="none"
                     role="combobox"
                     aria-expanded={open}
-                    className="flex justify-between w-[calc(100%-56px)] bottom-12 items-center absolute space-x-2 rounded-full "
+                    className="flex justify-between w-[calc(100%-56px)] bottom-12 items-center absolute space-x-2 rounded-full"
                 >
                     {value ? frameworks.find((framework) => framework.value === value)?.label : "Select Project"}
                     <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />

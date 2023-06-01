@@ -1,9 +1,7 @@
-import { UpdateCategoryDto } from "@/app/api/category/[id]/route";
-import { CreateCategoryDto } from "@/app/api/category/route";
 import { CreateTemplateDto } from "@/app/api/template/route";
 import { axiosError, exclude } from "@/lib/utils";
 import { ApiResponse } from "@/types";
-import { Category, Template } from "@prisma/client";
+import { Template } from "@prisma/client";
 import axios from "axios";
 import { TemplateDetail } from "./types";
 import { UpdateTemplateDto } from "@/app/api/template/[id]/route";

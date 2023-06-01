@@ -1,46 +1,20 @@
-import fs from "fs";
-import path from "path";
+import { v2 } from "cloudinary";
 
-function getFileExtension(blob: Blob) {
-    const mimeType = blob.type;
-    const mimeTypeParts = mimeType.split("/");
-    if (mimeTypeParts.length === 2) {
-        return mimeTypeParts[1];
-    }
-    return null;
-}
+v2.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-export async function uploadFile(image: Blob, folderName: string, id?: string) {
-    const fileName = (id ?? Date.now().toString()) + "." + getFileExtension(image);
-    const folderPath = path.join(process.cwd() + "/public/img/" + folderName);
+const prefix = "nivela";
 
-    const fullPath = [folderPath, fileName].join("/");
-    if (!fs.existsSync(folderPath)) {
-        fs.mkdir(folderPath, { recursive: true }, async () => {
-            const buffer = Buffer.from(await image.arrayBuffer());
-            fs.writeFile(fullPath, buffer, (err) => {
-                if (err) return;
-                console.log("file saved successfully to " + fullPath);
-            });
-        });
-    }
-
-    return { url: ["/img", folderName, fileName].join("/") };
-}
-
-export function deleteFolder(folderPath: string) {
-    const fullPath = path.join(process.cwd() + "/public/img/" + folderPath);
-    if (!fs.existsSync(fullPath)) return;
-
-    fs.rmSync(fullPath, { recursive: true, force: true });
-}
-
-export function deleteFile(filePath: string) {
-    const fullPath = path.join(process.cwd() + "/public" + filePath);
-    if (!fs.existsSync(fullPath)) return;
-
-    fs.unlink(fullPath, (err) => {
-        if (err) return;
-        console.log(fullPath + " removed successfully");
+export async function uploadFile(filePath: string, fileId: string) {
+    return await v2.uploader.upload(filePath, {
+        public_id: prefix + "/" + fileId,
+        allowed_formats: ["png", "jpg", "gif", "svg"],
     });
+}
+
+export async function deleteFile(filePath: string) {
+    return await v2.uploader.destroy(prefix + "/" + filePath);
 }

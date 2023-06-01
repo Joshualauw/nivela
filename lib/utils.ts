@@ -30,6 +30,21 @@ export async function getFileFromUrl(url: string, fileName: string): Promise<Fil
     return new File([blob], fileName);
 }
 
+export function blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            if (typeof reader.result === "string") {
+                resolve(reader.result);
+            } else {
+                reject(new Error("Unable to convert Blob to Base64 string."));
+            }
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
 export function swapItems(arr: any[], idx: number) {
     if (idx < 0 || idx >= arr.length - 1) {
         return arr;
