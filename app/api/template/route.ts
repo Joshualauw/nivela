@@ -24,24 +24,19 @@ export async function GET(request: NextRequest) {
 }
 
 const createTemplateSchema = z.object({
-    name: z.string(),
+    name: z.string().min(3),
     projectId: z.string(),
-    fields: z.array(
-        z.object({
-            title: z.string(),
-            type: z.enum(["text", "textarea", "source"]),
-            value: z
-                .object({
-                    content: z.string().optional(),
-                    linkname: z.string().optional(),
-                    url: z.string().optional(),
-                })
-                .optional(),
-        })
-    ),
+    fields: z
+        .array(
+            z.object({
+                title: z.string().min(3),
+                type: z.enum(["text", "textarea", "source"]),
+            })
+        )
+        .min(1),
 });
 
-type CreateTemplateDto = z.infer<typeof createTemplateSchema>;
+export type CreateTemplateDto = z.infer<typeof createTemplateSchema>;
 
 export async function POST(request: NextRequest) {
     const loggedUser = await isAuthenticated(request);

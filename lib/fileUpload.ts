@@ -28,9 +28,15 @@ export async function uploadFile(image: Blob, folderName: string, id?: string) {
     return { url: ["/img", folderName, fileName].join("/") };
 }
 
+export function deleteFolder(folderPath: string) {
+    const fullPath = path.join(process.cwd() + "/public/img/" + folderPath);
+    if (!fs.existsSync(fullPath)) return;
+
+    fs.rmSync(fullPath, { recursive: true, force: true });
+}
+
 export function deleteFile(filePath: string) {
     const fullPath = path.join(process.cwd() + "/public" + filePath);
-    console.log(fullPath);
     if (!fs.existsSync(fullPath)) return;
 
     fs.unlink(fullPath, (err) => {

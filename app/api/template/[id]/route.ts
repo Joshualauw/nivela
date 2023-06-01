@@ -22,23 +22,18 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 const updateTemplateSchema = z.object({
-    name: z.string(),
-    fields: z.array(
-        z.object({
-            title: z.string(),
-            type: z.enum(["text", "textarea", "source"]),
-            value: z
-                .object({
-                    content: z.string().optional(),
-                    linkname: z.string().optional(),
-                    url: z.string().optional(),
-                })
-                .optional(),
-        })
-    ),
+    name: z.string().min(3),
+    fields: z
+        .array(
+            z.object({
+                title: z.string(),
+                type: z.enum(["text", "textarea", "source"]),
+            })
+        )
+        .min(1),
 });
 
-type UpdateTemplateDto = z.infer<typeof updateTemplateSchema>;
+export type UpdateTemplateDto = z.infer<typeof updateTemplateSchema>;
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);

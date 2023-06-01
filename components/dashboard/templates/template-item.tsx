@@ -1,41 +1,46 @@
-// "use client";
+"use client";
 
-// import { Button } from "@/components/ui/button";
-// import { Card, CardHeader } from "@/components/ui/card";
-// import { Field } from "@prisma/client";
-// import { Dialog, DialogContent, DialogPortal, DialogTrigger } from "@radix-ui/react-dialog";
-// import { Pencil, Trash } from "lucide-react";
-// import React from "react";
-// import TemplateField from "./template-field";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader } from "@/components/ui/card";
+import { Field } from "@prisma/client";
+import { ArrowDown, ArrowUp, Pencil, Trash } from "lucide-react";
+import { DeleteModal } from "../delete-modal";
 
-// function TemplateItem({ title, single, source, unit }: Field) {
-//     return (
-//         <Card>
-//             <CardHeader className="relative">
-//                 <div className="absolute top-2 right-2 space-x-2">
-//                     <Dialog>
-//                         <DialogTrigger>
-//                             <Button variant="secondary" size="sm" type="button">
-//                                 <Pencil className="w-4 h-4" />
-//                             </Button>
-//                         </DialogTrigger>
-//                         <DialogContent>
-//                             <TemplateField />
-//                         </DialogContent>
-//                     </Dialog>
-//                     <Button variant="destructive" size="sm" type="button">
-//                         <Trash className="w-4 h-4" />
-//                     </Button>
-//                 </div>
-//                 <div className="text-gray-600 text-sm">
-//                     <p>Title: {title}</p>
-//                     <p>Type: {single ? "Single" : "Multiple"}</p>
-//                     <p>Source: {source ? "Datasource" : "None"}</p>
-//                     <p>Unit: {unit}</p>
-//                 </div>
-//             </CardHeader>
-//         </Card>
-//     );
-// }
+interface TemplateItemProps {
+    idx: number;
+    field: Field;
+    handleEditField: (f: Field, i: number) => void;
+    handleSwap: (idx: number) => void;
+    callback: () => void;
+}
 
-// export default TemplateItem;
+function TemplateItem({ field, idx, callback, handleEditField, handleSwap }: TemplateItemProps) {
+    return (
+        <div className="flex items-center w-full space-x-2">
+            <div className="space-y-2 text-gray-400 w-fit">
+                <ArrowUp onClick={() => handleSwap(idx - 1)} className="p-1 w-7 h-7 rounded-full hover:bg-gray-200" />
+                <ArrowDown onClick={() => handleSwap(idx)} className="p-1 w-7 h-7 rounded-full hover:bg-gray-200" />
+            </div>
+            <Card className="w-full">
+                <CardHeader className="relative">
+                    <div className="absolute top-2 right-2 space-x-2">
+                        <Button onClick={() => handleEditField(field, idx)} variant="secondary" size="sm" type="button">
+                            <Pencil className="w-4 h-4" />
+                        </Button>
+                        <DeleteModal instaClose callback={callback}>
+                            <Button variant="destructive" size="sm" type="button">
+                                <Trash className="w-4 h-4" />
+                            </Button>
+                        </DeleteModal>
+                    </div>
+                    <div className="text-gray-600 text-sm">
+                        <p>Title: {field.title}</p>
+                        <p>Type: {field.type}</p>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+    );
+}
+
+export default TemplateItem;

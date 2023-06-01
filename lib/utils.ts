@@ -23,3 +23,17 @@ export function axiosError(err: any) {
     console.error(error);
     return JSON.stringify({ code: error.response?.status, detail: error.response?.data });
 }
+
+export async function getFileFromUrl(url: string, fileName: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], fileName);
+}
+
+export function swapItems(arr: any[], idx: number) {
+    if (idx < 0 || idx >= arr.length - 1) {
+        return arr;
+    }
+    [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
+    return arr;
+}

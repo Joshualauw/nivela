@@ -46,9 +46,7 @@ function EditItem({ children, context }: EditItemProps) {
                                         + Add Field
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent>
-                                    <TemplateField context="create" />
-                                </DialogContent>
+                                <DialogContent>{/* <TemplateField context="create" /> */}</DialogContent>
                             </Dialog>
                             <Dialog>
                                 <DialogTrigger asChild>
@@ -93,9 +91,7 @@ function EditItem({ children, context }: EditItemProps) {
                                         <Pencil className="w-4 h-4" />
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent>
-                                    <TemplateField context="update" />
-                                </DialogContent>
+                                <DialogContent>{/* <TemplateField context="update" /> */}</DialogContent>
                             </Dialog>
                             <DeleteModal callback={() => {}}>
                                 <Button variant="destructive" size="sm">

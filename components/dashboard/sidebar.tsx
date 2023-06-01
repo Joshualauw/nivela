@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 import { ProjectCombobox } from "./projects";
 import { useTitleStore } from "@/hooks/store/useTitleStore";
 import Image from "next/image";
-import { FaQuestion } from "react-icons/fa";
+import { useSearchParams } from "next/navigation";
+import { useProjectStore } from "@/hooks/store/useProjectStore";
 
 const categories = [
     {
@@ -51,6 +52,7 @@ interface SidebarProps {
 export default function Sidebar({ className }: SidebarProps) {
     const router = useRouter();
     const { title, setTitle } = useTitleStore();
+    const { projectDetail } = useProjectStore();
 
     return (
         <div className={className + " bg-gray-900 text-gray-100"}>
@@ -67,7 +69,7 @@ export default function Sidebar({ className }: SidebarProps) {
                                 key={set.name}
                                 onClick={() => {
                                     setTitle(set.name.toLowerCase());
-                                    router.push(`/dashboard/${set.name.toLowerCase()}`);
+                                    router.push(`/dashboard/${set.name.toLowerCase()}?projectId=${projectDetail?.id}`);
                                 }}
                                 variant={title === set.name.toLowerCase() ? "secondary" : "ghost"}
                                 className="w-full justify-start"
@@ -84,7 +86,9 @@ export default function Sidebar({ className }: SidebarProps) {
                                 key={cat.name}
                                 onClick={() => {
                                     setTitle(cat.name.toLowerCase());
-                                    router.push(`/dashboard/category/${cat.name.toLowerCase()}`);
+                                    router.push(
+                                        `/dashboard/category/${cat.name.toLowerCase()}?projectId=${projectDetail?.id}`
+                                    );
                                 }}
                                 variant={title === cat.name.toLowerCase() ? "secondary" : "ghost"}
                                 className="w-full mb-1 justify-start"

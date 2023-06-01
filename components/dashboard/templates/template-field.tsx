@@ -1,26 +1,49 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Field } from "@prisma/client";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Field, FieldType } from "@prisma/client";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import React from "react";
+import { useEffect, useState } from "react";
 
 interface TemplateFieldProps {
     context: "create" | "update";
-    data?: Field;
+    fields: Field[];
+    setFields: Function;
+    close: Function;
+    fieldData?: Field | null;
+    updateId?: number | null;
 }
 
-function TemplateField({ context, data }: TemplateFieldProps) {
+function TemplateField({ context, setFields, fields, fieldData, close, updateId }: TemplateFieldProps) {
+    const [name, setName] = useState("");
+    const [type, setType] = useState<FieldType>("text");
+
+    useEffect(() => {
+        function populateData() {
+            if (fieldData) {
+                setName(fieldData.title);
+                setType(fieldData.type);
+            }
+        }
+        populateData();
+    }, [fieldData]);
+
+    function handleFieldSave() {
+        if (context == "create") {
+            setFields([...fields, { title: name, type }]);
+        } else {
+            const newFields = [...fields];
+            const fieldIdx = fields.findIndex((f, i) => i == updateId);
+            newFields[fieldIdx] = { title: name, type, value: null };
+            setFields(newFields);
+        }
+        close(false);
+    }
+
     return (
         <>
             <DialogHeader>
@@ -33,11 +56,11 @@ function TemplateField({ context, data }: TemplateFieldProps) {
                     <Label>
                         Name <span className="text-gray-400">(same name will be grouped)</span>
                     </Label>
-                    <Input placeholder="Field Name" />
+                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Field Name" />
                 </div>
                 <div className="flex flex-col space-y-2">
                     <Label>Type</Label>
-                    <Select>
+                    <Select defaultValue={type} onValueChange={(e) => setType(e as FieldType)}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select Field Type" />
                         </SelectTrigger>
@@ -52,7 +75,9 @@ function TemplateField({ context, data }: TemplateFieldProps) {
                 </div>
             </form>
             <DialogFooter>
-                <Button type="button">Save</Button>
+                <Button onClick={handleFieldSave} type="button">
+                    Save
+                </Button>
             </DialogFooter>
         </>
     );

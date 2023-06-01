@@ -4,7 +4,7 @@ import { exclude } from "@/lib/utils";
 import { validator } from "@/lib/validator";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
-import { deleteFile, uploadFile } from "@/lib/fileUpload";
+import { deleteFolder, uploadFile } from "@/lib/fileUpload";
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);
@@ -29,7 +29,7 @@ const updateProjectSchema = z.object({
     image: z.any().optional(),
 });
 
-type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
+export type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);
@@ -68,7 +68,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
             prisma.template.deleteMany({ where: { projectId: params.id } }),
             prisma.project.delete({ where: { id: params.id } }),
         ]);
-        if (project.image) deleteFile(project.image);
+        if (project.image) deleteFolder(`projects/${project.id}`);
 
         return NextResponse.json({ data: project, message: "project deleted successfully" });
     } catch (err: any) {

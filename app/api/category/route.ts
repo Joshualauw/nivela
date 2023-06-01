@@ -24,12 +24,12 @@ export async function GET(request: NextRequest) {
 }
 
 const createCategorySchema = z.object({
-    name: z.string(),
+    name: z.string().min(3),
     projectId: z.string(),
-    icon: z.string(),
+    icon: z.string().min(1),
 });
 
-type CreateCategoryDto = z.infer<typeof createCategorySchema>;
+export type CreateCategoryDto = z.infer<typeof createCategorySchema>;
 
 export async function POST(request: NextRequest) {
     const loggedUser = await isAuthenticated(request);

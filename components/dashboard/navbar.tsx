@@ -31,12 +31,10 @@ function Navbar() {
     return session && session.user ? (
         <div className="flex justify-between items-center w-full h-16 border-b px-4 md:px-8">
             <div className="flex items-center">
-                {title != "Projects" && (
+                {title != "projects" && (
                     <Sheet>
-                        <SheetTrigger>
-                            <div className={"block lg:hidden " + buttonVariants({ variant: "ghost" })}>
-                                <Menu className="w-6 h-6" />
-                            </div>
+                        <SheetTrigger className={"block lg:hidden " + buttonVariants({ variant: "ghost" })}>
+                            <Menu className="w-6 h-6" />
                         </SheetTrigger>
                         <SheetContent position="left">
                             <Sidebar className="absolute top-0 left-0 min-h-screen w-[250px]" />

@@ -11,18 +11,27 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { ReactNode } from "react";
-import { buttonVariants } from "../ui/button";
+import { ReactNode, useEffect, useState } from "react";
+import { Button, buttonVariants } from "../ui/button";
+import { FaSpinner } from "react-icons/fa";
 
 interface DeleteModalProps {
     children: ReactNode;
     itemName?: string;
-    callback: (accept: boolean) => void;
+    loading?: boolean;
+    instaClose?: boolean;
+    callback: () => void;
 }
 
-export function DeleteModal({ children, callback, itemName }: DeleteModalProps) {
+export function DeleteModal({ children, callback, loading, itemName, instaClose }: DeleteModalProps) {
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (!loading) setOpen(false);
+    }, [loading]);
+
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
@@ -33,13 +42,18 @@ export function DeleteModal({ children, callback, itemName }: DeleteModalProps) 
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => callback(false)}>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        className={buttonVariants({ variant: "destructive" })}
-                        onClick={() => callback(true)}
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <Button
+                        variant="destructive"
+                        disabled={loading}
+                        type="button"
+                        onClick={() => {
+                            callback();
+                            if (instaClose) setOpen(false);
+                        }}
                     >
-                        Delete
-                    </AlertDialogAction>
+                        {loading && <FaSpinner className="w-4 h-4 mr-2 animate-spin" />} Delete
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
