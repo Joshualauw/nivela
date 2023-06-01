@@ -25,6 +25,11 @@ function EditProject({ children }: EditProjectProps) {
     const [errors, setErrors] = useState<string[]>([]);
     const [image, setImage] = useState<File | null>(null);
 
+    function resetState() {
+        setName("");
+        setDescription("");
+    }
+
     function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
         if (e.target.files) {
             setImage(e.target.files[0]);
@@ -44,6 +49,7 @@ function EditProject({ children }: EditProjectProps) {
         onSuccess: ({ message }) => {
             toast.success(message, { position: toast.POSITION.TOP_RIGHT });
             setOpen(false);
+            resetState();
             queryClient.invalidateQueries("getAllProjects");
         },
     });

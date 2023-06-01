@@ -16,14 +16,14 @@ export async function uploadFile(image: Blob, folderName: string, id?: string) {
 
     const fullPath = [folderPath, fileName].join("/");
     if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath, { recursive: true });
+        fs.mkdir(folderPath, { recursive: true }, async () => {
+            const buffer = Buffer.from(await image.arrayBuffer());
+            fs.writeFile(fullPath, buffer, (err) => {
+                if (err) return;
+                console.log("file saved successfully to " + fullPath);
+            });
+        });
     }
-
-    const buffer = Buffer.from(await image.arrayBuffer());
-    fs.writeFile(fullPath, buffer, (err) => {
-        if (err) return;
-        console.log("file saved successfully to " + fullPath);
-    });
 
     return { url: ["/img", folderName, fileName].join("/") };
 }
