@@ -3,7 +3,6 @@ import { validator } from "@/lib/validator";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import prisma from "@/lib/db";
-import { deleteFolder } from "@/lib/fileUpload";
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);
@@ -56,7 +55,6 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
             prisma.category.delete({ where: { id: params.id } }),
             prisma.item.deleteMany({ where: { categoryId: params.id } }),
         ]);
-        deleteFolder(`projects/${category.projectId}/items`);
 
         return NextResponse.json({ data: category, message: "category deleted successfully" });
     } catch (err: any) {
