@@ -15,7 +15,9 @@ export async function uploadFile(image: Blob, folderName: string, id?: string) {
     const folderPath = path.join(process.cwd() + "/public/img/" + folderName);
 
     const fullPath = [folderPath, fileName].join("/");
-    fs.mkdirSync(folderPath, { recursive: true });
+    if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+    }
 
     const buffer = Buffer.from(await image.arrayBuffer());
     fs.writeFile(fullPath, buffer, (err) => {
