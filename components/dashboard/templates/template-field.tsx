@@ -38,7 +38,7 @@ function TemplateField({ context, setFields, fields, fieldData, close, updateId 
         } else {
             const newFields = [...fields];
             const fieldIdx = fields.findIndex((f, i) => i == updateId);
-            newFields[fieldIdx] = { title: name, type, value: null };
+            newFields[fieldIdx] = { title: name, type, value: [] };
             setFields(newFields);
         }
         close(false);
