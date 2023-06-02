@@ -14,7 +14,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     return (
         <div className="flex">
             <Sidebar className="w-[300px] h-screen hidden lg:block" />
-            <DashboardParams />
+            <DashboardParams userId={session.user.id} />
             <div className="w-full">
                 <Navbar />
                 <ScrollArea className="h-screen p-8 pb-24">{children}</ScrollArea>

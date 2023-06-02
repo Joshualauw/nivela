@@ -88,7 +88,7 @@ model Item {
 type Field {
     title String
     type  FieldType
-    value FieldValue?
+    value FieldValue[]
 }
 
 enum FieldType {

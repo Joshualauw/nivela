@@ -31,6 +31,7 @@ const createTemplateSchema = z.object({
             z.object({
                 title: z.string().min(3),
                 type: z.enum(["text", "textarea", "source"]),
+                value: z.array(z.any()).optional().default([]),
             })
         )
         .min(1),

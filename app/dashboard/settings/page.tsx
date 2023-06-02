@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import useProject from "@/hooks/service/project/useProject";
+import useProject from "@/hooks/service/useProject";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 import { ErrorResponse } from "@/types";
 import { AlertTriangle } from "lucide-react";
@@ -112,7 +112,7 @@ function Settings() {
                     {projectDetail && (
                         <Button
                             onClick={() => updateMutate({ name, description, image, id: projectDetail.id })}
-                            className="w-full md:w-1/2"
+                            className="w-fit"
                             disabled={updateLoading}
                         >
                             {updateLoading && <FaSpinner className="w-4 h-4 mr-2 animate-spin" />} Save

@@ -6,7 +6,7 @@ import { EditTemplate } from "@/components/dashboard/templates/edit-template";
 import { DeleteModal } from "@/components/dashboard/delete-modal";
 import { Edit, Trash } from "lucide-react";
 import { useMutation, useQueryClient } from "react-query";
-import useTemplate from "@/hooks/service/template/useTemplate";
+import useTemplate from "@/hooks/service/useTemplate";
 import { toast } from "react-toastify";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 

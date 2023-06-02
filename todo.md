@@ -1,0 +1,11 @@
+-   [V] CRUD Template
+-   [V] CRUD Project
+-   [V] CRUD Category
+-   [ ] CRUD Item
+-   [ ] CRUD Chapter
+-   [V] Google Auth
+-   [ ] Email Credentials Auth (!)
+-   [ ] Premium User
+-   [ ] Update Profile (!)
+-   [ ] Report overview
+-   [ ] Import & Export Project (!)

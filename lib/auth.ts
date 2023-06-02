@@ -24,10 +24,10 @@ export const authOptions: NextAuthOptions = {
 };
 
 export async function isAuthenticated(request: NextRequest) {
-    const token =
-        request.cookies.get("next-auth.session-token") || request.cookies.get("__Secure-next-auth.session-token");
-    //for api testing
-    //const token = request.headers.get("token");
+    const tokenKey = ["next-auth.session-token", "__Secure-next-auth.session-token"];
+    const token = request.cookies.get(tokenKey[0]) || request.cookies.get(tokenKey[1]);
+    // for api testing
+    // const token = request.headers.get("token");
 
     let loggedUser = null;
     if (token) {

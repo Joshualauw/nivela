@@ -5,7 +5,7 @@ import { EditTemplate } from "@/components/dashboard/templates/edit-template";
 import TemplateCard from "@/components/dashboard/templates/template-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
-import useTemplate from "@/hooks/service/template/useTemplate";
+import useTemplate from "@/hooks/service/useTemplate";
 import { useQuery } from "react-query";
 import { Button } from "@/components/ui/button";
 

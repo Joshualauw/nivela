@@ -4,18 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ReactNode, useEffect, useState } from "react";
-import TemplateField from "./template-field";
+import { ReactNode, useState } from "react";
 import { Field, Template } from "@prisma/client";
-import TemplateItem from "./template-item";
-import { swapItems } from "@/lib/utils";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import useTemplate from "@/hooks/service/template/useTemplate";
+import useTemplate from "@/hooks/service/useTemplate";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 import { FaSpinner } from "react-icons/fa";
 import { ApiResponse, ErrorResponse } from "@/types";
 import { toast } from "react-toastify";
 import ValidationError from "@/components/state/validation-error";
+import TemplateBuilder from "./template-builder";
 
 interface EditTemplateProps {
     context: "create" | "update";
@@ -27,38 +25,16 @@ export function EditTemplate({ context, children, updateId }: EditTemplateProps)
     const [name, setName] = useState("");
     const [fields, setFields] = useState<Field[]>([]);
     const [open, setOpen] = useState(false);
-    const [openField, setOpenField] = useState(false);
-    const [fieldData, setFieldData] = useState<Field | null>(null);
-    const [fieldUpdateId, setFieldUpdateId] = useState<number | null>(null);
     const [errors, setErrors] = useState<string[]>([]);
-    const [fieldContext, setFieldContext] = useState<"create" | "update">("create");
 
     const { addTemplate, getOneTemplate, updateTemplate } = useTemplate();
     const { projectDetail } = useProjectStore();
     const queryClient = useQueryClient();
 
-    function handleSwap(idx: number) {
-        setFields(swapItems([...fields], idx));
-    }
-
     function resetState() {
         setName("");
         setFields([]);
         setErrors([]);
-    }
-
-    function handleEditField(field: Field, idx: number) {
-        setFieldContext("update");
-        setFieldData(field);
-        setFieldUpdateId(idx);
-        setOpenField(true);
-    }
-
-    function handleCreateField() {
-        setFieldContext("create");
-        setFieldData(null);
-        setFieldUpdateId(null);
-        setOpenField(true);
     }
 
     function handleError(err: any) {
@@ -117,38 +93,7 @@ export function EditTemplate({ context, children, updateId }: EditTemplateProps)
                         <Label>Name</Label>
                         <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Template name.." />
                     </div>
-                    <div className="space-y-4">
-                        <div className="flex w-full items-center justify-between">
-                            <Label>Fields</Label>
-                            <Dialog open={openField} onOpenChange={setOpenField}>
-                                <DialogTrigger asChild>
-                                    <Button onClick={handleCreateField} variant="ghost" size="sm" type="button">
-                                        + Add Field
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <TemplateField
-                                        context={fieldContext}
-                                        setFields={setFields}
-                                        fields={fields}
-                                        updateId={fieldUpdateId}
-                                        fieldData={fieldData}
-                                        close={setOpenField}
-                                    />
-                                </DialogContent>
-                            </Dialog>
-                        </div>
-                        {fields.map((f, i) => (
-                            <TemplateItem
-                                key={i}
-                                idx={i}
-                                field={f}
-                                handleSwap={handleSwap}
-                                handleEditField={handleEditField}
-                                callback={() => setFields(fields.filter((fd) => fd.title !== f.title))}
-                            />
-                        ))}
-                    </div>
+                    <TemplateBuilder fields={fields} setFields={setFields} />
                     <ValidationError errors={errors} />
                 </form>
                 <DialogFooter>

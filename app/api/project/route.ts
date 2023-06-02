@@ -43,8 +43,7 @@ export async function POST(request: NextRequest) {
         const loggedUser = await isAuthenticated(request);
         if (!loggedUser) return NextResponse.json({ message: "unauthenticated" }, { status: 401 });
 
-        const formData = await request.formData();
-        const body = Object.fromEntries(formData) as CreateProjectDto;
+        const body = (await request.json()) as CreateProjectDto;
 
         let { errors } = validator(createProjectSchema, body);
         if (errors.length > 0) return NextResponse.json({ message: "validation failed", errors }, { status: 400 });

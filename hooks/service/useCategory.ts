@@ -1,10 +1,9 @@
 import { UpdateCategoryDto } from "@/app/api/category/[id]/route";
 import { CreateCategoryDto } from "@/app/api/category/route";
 import { axiosError, exclude } from "@/lib/utils";
-import { ApiResponse } from "@/types";
+import { ApiResponse, CategoryDetail } from "@/types";
 import { Category } from "@prisma/client";
 import axios from "axios";
-import { CategoryDetail } from "./types";
 
 function useCategory() {
     const BASE_API = "/api/category";

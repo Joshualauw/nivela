@@ -1,5 +1,5 @@
+import { ProjectDetail } from "@/types";
 import { create } from "zustand";
-import { ProjectDetail } from "../service/project/types";
 
 interface ProjectState {
     projectDetail: ProjectDetail | null;

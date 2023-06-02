@@ -8,7 +8,7 @@ import { EditCategory } from "./edit-category";
 import * as icons from "react-icons/fa";
 import { createElement } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import useCategory from "@/hooks/service/category/useCategory";
+import useCategory from "@/hooks/service/useCategory";
 import { toast } from "react-toastify";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 

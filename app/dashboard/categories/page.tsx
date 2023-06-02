@@ -4,7 +4,7 @@ import CategoryCard from "@/components/dashboard/category/category-card";
 import { EditCategory } from "@/components/dashboard/category/edit-category";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import useCategory from "@/hooks/service/category/useCategory";
+import useCategory from "@/hooks/service/useCategory";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 import { Plus } from "lucide-react";
 import { useQuery } from "react-query";

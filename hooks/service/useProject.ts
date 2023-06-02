@@ -1,8 +1,7 @@
 import { CreateProjectDto } from "@/app/api/project/route";
-import { ApiResponse } from "@/types/index";
+import { ApiResponse, ProjectCards, ProjectDetail } from "@/types/index";
 import { Project } from "@prisma/client";
-import { axiosError, blobToBase64 } from "../../../lib/utils";
-import { ProjectCards, ProjectDetail } from "./types";
+import { axiosError, blobToBase64, exclude } from "../../lib/utils";
 import axios from "axios";
 import { UpdateProjectDto } from "@/app/api/project/[id]/route";
 
@@ -37,18 +36,14 @@ function useProject() {
         },
 
         addProject: async (payload: CreateProjectDto) => {
-            const formData = new FormData();
-            formData.append("name", payload.name);
-            formData.append("description", payload.description);
+            const body = { ...payload };
             if (payload.image) {
                 const image = await blobToBase64(payload.image);
-                formData.append("image", image);
+                Object.assign(body, { image });
             }
 
             try {
-                const res = await axios.post<ApiResponse<Project>>(BASE_API, formData, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
+                const res = await axios.post<ApiResponse<Project>>(BASE_API, body);
                 return res.data;
             } catch (err: any) {
                 throw new Error(axiosError(err));
@@ -56,18 +51,14 @@ function useProject() {
         },
 
         updateProject: async (payload: UpdateProjectDto & { id: string }) => {
-            const formData = new FormData();
-            formData.append("name", payload.name);
-            formData.append("description", payload.description);
+            const body = { ...payload };
             if (payload.image) {
                 const image = await blobToBase64(payload.image);
-                formData.append("image", image);
+                Object.assign(body, { image });
             }
 
             try {
-                const res = await axios.put<ApiResponse<Project>>(`${BASE_API}/${payload.id}`, formData, {
-                    headers: { "Content-Type": "multipart/form-data" },
-                });
+                const res = await axios.put<ApiResponse<Project>>(`${BASE_API}/${payload.id}`, exclude(body, ["id"]));
                 return res.data;
             } catch (err: any) {
                 throw new Error(axiosError(err));

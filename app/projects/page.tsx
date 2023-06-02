@@ -4,7 +4,7 @@ import Navbar from "@/components/dashboard/navbar";
 import EditProject from "@/components/dashboard/projects/edit-project";
 import ProjectCard from "@/components/dashboard/projects/project-card";
 import Error from "@/components/state/error";
-import useProject from "@/hooks/service/project/useProject";
+import useProject from "@/hooks/service/useProject";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTitleStore } from "@/hooks/store/useTitleStore";

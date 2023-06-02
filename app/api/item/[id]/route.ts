@@ -1,54 +1,62 @@
 import { isAuthenticated } from "@/lib/auth";
-import { validator } from "@/lib/validator";
-import { NextResponse, type NextRequest } from "next/server";
-import { z } from "zod";
 import prisma from "@/lib/db";
+import { deleteFile, uploadFile } from "@/lib/fileUpload";
+import { exclude } from "@/lib/utils";
+import { validator } from "@/lib/validator";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);
     if (!loggedUser) return NextResponse.json({ message: "unauthenticated" }, { status: 401 });
 
     try {
-        const template = await prisma.template.findFirst({
+        const item = await prisma.item.findFirst({
             where: { id: params.id },
-            include: { project: true },
+            include: { category: true, project: true },
         });
-        if (!template) return NextResponse.json({ message: "template not found" }, { status: 404 });
+        if (!item) return NextResponse.json({ message: "item not found" }, { status: 404 });
 
-        return NextResponse.json({ data: template, message: "template fetched successfully" });
+        return NextResponse.json({ data: item, message: "item fetched successfully" });
     } catch (err: any) {
         return NextResponse.json({ message: err.message }, { status: 500 });
     }
 }
 
-const updateTemplateSchema = z.object({
+const updateItemSchema = z.object({
     name: z.string().min(3),
+    image: z.any().optional(),
+    categoryId: z.string(),
     fields: z
         .array(
             z.object({
-                title: z.string(),
+                title: z.string().min(3),
                 type: z.enum(["text", "textarea", "source"]),
                 value: z.array(z.any()).optional().default([]),
             })
         )
         .min(1),
 });
-
-export type UpdateTemplateDto = z.infer<typeof updateTemplateSchema>;
+export type UpdateItemDto = z.infer<typeof updateItemSchema>;
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
     const loggedUser = await isAuthenticated(request);
     if (!loggedUser) return NextResponse.json({ message: "unauthenticated" }, { status: 401 });
 
-    const body = (await request.json()) as UpdateTemplateDto;
+    const body = (await request.json()) as UpdateItemDto;
 
-    let { errors } = validator(updateTemplateSchema, body);
+    let { errors } = validator(updateItemSchema, body);
     if (errors.length > 0) return NextResponse.json({ message: "validation failed", errors }, { status: 400 });
 
     try {
-        const template = await prisma.template.update({ where: { id: params.id }, data: body });
+        const item = await prisma.item.update({ where: { id: params.id }, data: exclude(body, ["image"]) });
+        if (body.image) {
+            const { url } = await uploadFile(body.image, `items/${item.id}`);
+            await prisma.item.update({ where: { id: item.id }, data: { image: url } });
+            item.image = url;
+        }
 
-        return NextResponse.json({ data: template, message: "template updated successfully" });
+        return NextResponse.json({ data: item, message: "item updated successfully" });
     } catch (err: any) {
         return NextResponse.json({ message: err.message }, { status: 500 });
     }
@@ -59,9 +67,12 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     if (!loggedUser) return NextResponse.json({ message: "unauthenticated" }, { status: 401 });
 
     try {
-        const template = await prisma.template.delete({ where: { id: params.id } });
+        const item = await prisma.item.delete({
+            where: { id: params.id },
+        });
+        if (item.image) await deleteFile(`items/${item.id}`);
 
-        return NextResponse.json({ data: template, message: "template deleted successfully" });
+        return NextResponse.json({ data: item, message: "item deleted successfully" });
     } catch (err: any) {
         return NextResponse.json({ message: err.message }, { status: 500 });
     }

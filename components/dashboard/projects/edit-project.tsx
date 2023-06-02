@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import useProject from "@/hooks/service/project/useProject";
+import useProject from "@/hooks/service/useProject";
 import { ErrorResponse } from "@/types";
 import { ChangeEvent, ReactNode, useState } from "react";
 import { FaSpinner } from "react-icons/fa";

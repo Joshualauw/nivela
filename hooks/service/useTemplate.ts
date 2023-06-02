@@ -1,9 +1,8 @@
 import { CreateTemplateDto } from "@/app/api/template/route";
 import { axiosError, exclude } from "@/lib/utils";
-import { ApiResponse } from "@/types";
+import { ApiResponse, TemplateDetail } from "@/types";
 import { Template } from "@prisma/client";
 import axios from "axios";
-import { TemplateDetail } from "./types";
 import { UpdateTemplateDto } from "@/app/api/template/[id]/route";
 
 function useTemplate() {

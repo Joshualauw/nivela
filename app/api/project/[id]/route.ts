@@ -35,8 +35,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const loggedUser = await isAuthenticated(request);
     if (!loggedUser) return NextResponse.json({ message: "unauthenticated" }, { status: 401 });
 
-    const formData = await request.formData();
-    const body = Object.fromEntries(formData) as UpdateProjectDto;
+    const body = (await request.json()) as UpdateProjectDto;
 
     let { errors } = validator(updateProjectSchema, body);
     if (errors.length > 0) return NextResponse.json({ message: "validation failed", errors }, { status: 400 });
@@ -44,7 +43,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     try {
         const project = await prisma.project.update({
             where: { id: params.id },
-            data: { ...exclude(body, ["image"]) },
+            data: exclude(body, ["image"]),
         });
         if (body.image) {
             const { url } = await uploadFile(body.image, `projects/${project.id}`);

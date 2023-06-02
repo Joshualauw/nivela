@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import IconPicker from "../../icon-picker";
 import { ReactNode, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import useCategory from "@/hooks/service/category/useCategory";
+import useCategory from "@/hooks/service/useCategory";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 import { FaSpinner } from "react-icons/fa";
 import { ApiResponse, ErrorResponse } from "@/types";
