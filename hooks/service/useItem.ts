@@ -1,3 +1,4 @@
+import { CategoryItems } from "./../../types/index.d";
 import { UpdateItemDto } from "@/app/api/item/[id]/route";
 import { CreateItemDto } from "@/app/api/item/route";
 import { axiosError, blobToBase64, exclude } from "@/lib/utils";
@@ -13,6 +14,20 @@ function useItem() {
             try {
                 const res = await axios.get<ApiResponse<Item[]>>(BASE_API, { params: { projectId, categoryId } });
                 return res.data;
+            } catch (err: any) {
+                throw new Error(axiosError(err));
+            }
+        },
+
+        getCategoryitems: async (projectId: string) => {
+            try {
+                const res = await axios.get<ApiResponse<{ [key: string]: CategoryItems }>>(`${BASE_API}/category`, {
+                    params: { projectId },
+                });
+                return Object.entries(res.data.data).map(([category, items]) => ({
+                    category,
+                    items: items.map((item) => ({ name: item.name, url: `/dashboard/items/${item.id}` })),
+                }));
             } catch (err: any) {
                 throw new Error(axiosError(err));
             }

@@ -52,3 +52,15 @@ export function swapItems(arr: any[], idx: number) {
     [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
     return arr;
 }
+
+export function genRandomString() {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let randomString = "";
+
+    for (let i = 0; i < 5; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomString += characters.charAt(randomIndex);
+    }
+
+    return randomString;
+}

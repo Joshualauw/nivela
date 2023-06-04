@@ -2,7 +2,7 @@
 
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react";
+import { Edit, ExternalLink, Trash } from "lucide-react";
 import { DeleteModal } from "../delete-modal";
 import EditItem from "./edit-item";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import useItem from "@/hooks/service/useItem";
 import { useProjectStore } from "@/hooks/store/useProjectStore";
 import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface ItemCardProps {
     id: string;
@@ -23,6 +24,7 @@ function ItemCard({ id, name, image, categories }: ItemCardProps) {
     const { deleteItem } = useItem();
     const { projectDetail } = useProjectStore();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const { mutate: deleteMutate, isLoading: deleteLoading } = useMutation(["deleteItem", id], deleteItem, {
         onError: () => {
@@ -35,7 +37,7 @@ function ItemCard({ id, name, image, categories }: ItemCardProps) {
     });
 
     return (
-        <Card className="hover:scale-[0.98]">
+        <Card className="hover:scale-[0.98] relative">
             <CardHeader className="flex justify-center items-center">
                 <Image
                     src={image ?? "/img/logo.png"}
@@ -58,6 +60,16 @@ function ItemCard({ id, name, image, categories }: ItemCardProps) {
                     </Button>
                 </DeleteModal>
             </CardFooter>
+            {projectDetail && (
+                <Button
+                    onClick={() => router.push(`/dashboard/items/${id}?projectId=${projectDetail.id}`)}
+                    variant="ghost"
+                    size="sm"
+                    className="absolute top-3 right-3"
+                >
+                    <ExternalLink className="w-4 h-4" />
+                </Button>
+            )}
         </Card>
     );
 }

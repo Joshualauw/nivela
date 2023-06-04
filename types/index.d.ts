@@ -50,3 +50,8 @@ export type ItemDetail =
           project: Project | null;
       })
     | null;
+
+export type CategoryItems = (Item & {
+    category: Category | null;
+    project: Project | null;
+})[];

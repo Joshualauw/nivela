@@ -63,8 +63,8 @@ function Items() {
                 {categories && categories.data && (
                     <EditItem context="create" categories={categories.data}>
                         <Button size="sm">
-                            <Plus className="w-4 h-4 mr-2" />
-                            Create Item
+                            <Plus className="w-4 h-4 md:mr-2" />
+                            <span className="hidden md:block">Create Item</span>
                         </Button>
                     </EditItem>
                 )}
